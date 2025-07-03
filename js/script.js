@@ -9,42 +9,51 @@ document.addEventListener('DOMContentLoaded', function() {
   const agentNavBtns = document.querySelectorAll('.agent-nav-btn');
   const businessCard = document.querySelector('.business-card');
   
-  // Make sure the business card covers the full screen
-  function adjustCardForFullScreen() {
-    // Set width and height to cover full viewport
-    businessCard.style.width = '100vw';
-    businessCard.style.height = '100vh';
-    
-    // Add slight vertical stretch to enhance card effect
-    businessCard.style.transform = 'scaleY(1.02)';
-    
-    // Ensure content is fully visible
+  // Ensure card displays properly on different devices
+  function adjustCardDisplay() {
     const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
     
-    // On narrower screens, adjust background position to show all content
-    if (windowWidth < 500) {
+    // Calculate the proper image dimensions based on the viewport
+    if (windowWidth <= 767) {
+      // Mobile display
+      businessCard.style.width = '100%';
+      businessCard.style.height = '100vh';
       businessCard.style.backgroundSize = 'contain';
-      businessCard.style.backgroundPosition = 'center center';
       businessCard.style.backgroundRepeat = 'no-repeat';
+      businessCard.style.backgroundPosition = 'center';
     } else {
-      businessCard.style.backgroundSize = 'cover';
-      businessCard.style.backgroundPosition = 'center center';
+      // Desktop display
+      const imageAspectRatio = 0.5625; // 9:16 aspect ratio
+      
+      // Set height to 90% of viewport height
+      const desiredHeight = windowHeight * 0.9;
+      
+      // Calculate width based on aspect ratio
+      const desiredWidth = desiredHeight * imageAspectRatio;
+      
+      // Set dimensions
+      businessCard.style.height = `${desiredHeight}px`;
+      businessCard.style.width = `${desiredWidth}px`;
+      businessCard.style.backgroundSize = 'contain';
+      businessCard.style.backgroundRepeat = 'no-repeat';
+      businessCard.style.backgroundPosition = 'center';
     }
   }
   
   // Run on load and resize
-  adjustCardForFullScreen();
-  window.addEventListener('resize', adjustCardForFullScreen);
+  adjustCardDisplay();
+  window.addEventListener('resize', adjustCardDisplay);
   
   // Save Contact functionality
   saveContactBtn.addEventListener('click', function() {
     const contact = {
-      name: "Damien",
+      name: "Antonio",
       phoneNumbers: [
         { type: "work", number: "1-800-362-6564" },
-        { type: "mobile", number: "414-316-0702" }
+        { type: "mobile", number: "414-982-7034" }
       ],
-      email: "Damien@alwaystruckingandloading.com"
+      email: "Antonio@alwaystruckinandloading.com"
     };
     
     // Create vCard format
@@ -56,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const link = document.createElement('a');
     link.href = url;
-    link.download = "damien_contact.vcf";
+    link.download = "antonio_contact.vcf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
